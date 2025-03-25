@@ -72,7 +72,7 @@ $main_form.Controls.Add($Label)
 $textBox = New-Object System.Windows.Forms.TextBox
 $textBox.Location = New-Object System.Drawing.Point(10,40)
 $textBox.Width = 200
-$textBox.Text = "brrrrr"
+$textBox.Text = ""
 $textBox.ReadOnly = $true
 $main_form.Controls.Add($textBox)
 
