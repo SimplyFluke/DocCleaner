@@ -1,5 +1,6 @@
 [System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms') | out-null
 
+# Function to prevent a powershell window from popping up when running the script.
 Function Hide-PowerShellWindow()
 		{
 			[CmdletBinding()]
@@ -36,6 +37,7 @@ Function Hide-PowerShellWindow()
 
 function CleanFile($file)
 {
+    # Open Word-doc in a hidden window
     $word = New-Object -ComObject Word.Application
     $word.Visible = $false
     $doc = $word.Documents.Open($file)
@@ -51,6 +53,7 @@ function CleanFile($file)
     [System.Runtime.Interopservices.Marshal]::ReleaseComObject($word)
 }
 
+#Create UI
 $main_form = New-Object System.Windows.Forms.Form
 $main_form.Text ='Document Cleaner'
 $main_form.Width = 350
@@ -83,15 +86,16 @@ $fileCleanButton.Location = New-Object System.Drawing.Point(20,80)
 $fileCleanButton.Text = "Clean!"
 $main_form.Controls.Add($fileCleanButton)
 
+
 $fileSelectButton.Add_Click({
-    $oneDrivePath = [System.Environment]::GetFolderPath("UserProfile") + "\OneDrive"
-    $FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{
+    $oneDrivePath = [System.Environment]::GetFolderPath("UserProfile") + "\OneDrive" # Set default path to the OneDrive-folder when opening filedialog
+    $FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ # Limit filetypes to docx and xlsx
         InitialDirectory = $oneDrivePath
         Filter           = 'Documents (*.docx)|*.docx|SpreadSheet (*.xlsx)|*.xlsx'
     }
     
     if ($FileBrowser.ShowDialog() -eq "OK"){
-        $textBox.Text = $FileBrowser.FileName
+        $textBox.Text = $FileBrowser.FileName # Chuck filename in the textbox field once a file is selected
     }
 })
 
